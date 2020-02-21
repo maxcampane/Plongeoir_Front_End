@@ -32,6 +32,7 @@ const signin = (props) => {
                                    margin="normal"
                                    required
                                    fullWidth
+                                   type="email"
                                    id="email"
                                    label="Adresse email"
                                    name="email"
