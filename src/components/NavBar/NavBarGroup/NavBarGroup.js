@@ -2,12 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button } from "@material-ui/core";
 
-const navbarPanel = (props) => {
+const navBarGroup = (props) => {
     const { buttons, buttonClass } = props;
 
     let panelButtons = null;
     if(buttons){
-        panelButtons = buttons.map((button, index) => <Button key={index} className={buttonClass}>{button.name}</Button>);
+        panelButtons = buttons.map((button, index) => {
+            return (
+                <Button key={index}
+                        className={buttonClass}>
+                    {button.name}
+                </Button>
+            )
+        });
     }
 
     return (
@@ -17,9 +24,9 @@ const navbarPanel = (props) => {
     )
 };
 
-navbarPanel.propTypes = {
+navBarGroup.propTypes = {
     buttons: PropTypes.array,
     buttonClass: PropTypes.string,
 };
 
-export default navbarPanel;
+export default navBarGroup;

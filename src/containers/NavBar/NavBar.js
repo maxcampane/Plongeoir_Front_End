@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles} from "@material-ui/core";
 import NavBarComponent from "../../components/NavBar/NavBar";
+import {css_config} from "../../config/webapp_config";
 
 const styles = theme => ({
     toolbar: {
@@ -9,7 +10,7 @@ const styles = theme => ({
         justifyContent: "space-between",
     },
     buttons: {
-        color: "orange",
+        color: css_config.font_color,
         border: "1px solid",
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
