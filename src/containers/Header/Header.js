@@ -10,6 +10,9 @@ const styles = theme => ({
     toolbarTitle: {
         flex: 1,
     },
+    header_logo: {
+        margin: theme.spacing(1),
+    }
 });
 
 class Header extends React.Component {

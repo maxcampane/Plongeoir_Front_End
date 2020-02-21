@@ -1,6 +1,5 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
-import { Link } from "react-router-dom";
 import { Grid, Paper } from '@material-ui/core';
 
 const styles = theme => ({

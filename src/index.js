@@ -2,16 +2,9 @@ import React from 'react';
 import './index.css';
 import App from './App';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 
-const app = (
-    <BrowserRouter forceRefresh={true}>
-        <App/>
-    </BrowserRouter>
-);
-
-ReactDOM.render(app, document.getElementById('root'));
+ReactDOM.render(<App/>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

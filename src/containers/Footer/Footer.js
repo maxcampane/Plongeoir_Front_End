@@ -9,8 +9,8 @@ const styles = theme => ({
         alignItems: "center",
         justifyContent: "space-around",
         backgroundColor: "lightblue",
-        paddingBottom: theme.spacing(2),
-        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(6),
+        paddingTop: theme.spacing(6),
     }
 });
 

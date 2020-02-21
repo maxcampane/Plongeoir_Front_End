@@ -37,7 +37,7 @@ export const content_config = {
  */
 
 export const css_config = {
-    font_color: "orange",
+    font_color: "orange", //deprecated
 };
 
 /*
@@ -57,11 +57,11 @@ export const leftPanelButtons = [
 
 export const rightPanelButtons = [
     {
-        name: "Sign In",
+        name: "Se connecter",
         url: routes_names.SIGNIN,
     },
     {
-        name: "Sign Up",
+        name: "S'inscrire",
         url: routes_names.SIGNUP,
     },
 ];
