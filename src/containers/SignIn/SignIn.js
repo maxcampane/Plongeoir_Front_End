@@ -17,6 +17,7 @@ const styles = theme => ({
         padding: "20px",
     },
     image: {
+        zIndex: -1,
         filter: "blur(6px)",
         backgroundImage: 'url(https://source.unsplash.com/random)',
         backgroundRepeat: 'no-repeat',
