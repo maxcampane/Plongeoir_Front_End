@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, CardActions, CardContent, CardMedia, Grid, Typography} from "@material-ui/core";
+import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@material-ui/core";
 
 const bookOverview = (props) => (
     <Grid item xs={12} sm={6} md={4}>
@@ -11,10 +11,10 @@ const bookOverview = (props) => (
             />
             <CardContent className={props.classes.cardContent}>
                 <Typography gutterBottom variant="h5" component="h2">
-                    Lorem ipsum
+                    {props.title}
                 </Typography>
-                <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                <Typography noWrap>
+                    {props.description}
                 </Typography>
             </CardContent>
             <CardActions>
@@ -22,7 +22,7 @@ const bookOverview = (props) => (
                     Voir
                 </Button>
                 <Button size="small" color="primary">
-                    Editer
+                    Réserver
                 </Button>
             </CardActions>
         </Card>
