@@ -4,11 +4,10 @@ import CategoryPageComponent from "../../components/CategoryPage/CategoryPage";
 import BookOverview from "../../components/BookOverview/BookOverview";
 import { withStyles } from "@material-ui/core";
 
-let test = "warning";
-
 const styles = theme => ({
     heroContent: {
         backgroundColor: theme.palette.background.paper,
+        width: "100%",
         padding: theme.spacing(8, 0, 6),
     },
     cardGrid: {
@@ -91,7 +90,7 @@ class CategoryPage extends React.Component {
                               description={book.description}/>
             ));
         }
-        
+
         return <CategoryPageComponent classes={classes} isInputInvalid={isInputInvalid}
                                       categoryId={params.id}
                                       onFilterChange={this.onFilterChange}
