@@ -8,9 +8,7 @@ const navBarGroup = (props) => {
 
     let panelButtons = null;
     if(buttons){
-        panelButtons = buttons.map((button, index) => {
-            // const navlink = {button.name}</NavLink>;
-            return (
+        panelButtons = buttons.map((button, index) => (
                 <Button key={index}
                         className={buttonClass}
                         component={NavLink}
@@ -18,7 +16,7 @@ const navBarGroup = (props) => {
                     {button.name}
                 </Button>
             )
-        });
+        );
     }
 
     return (

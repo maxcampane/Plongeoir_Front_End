@@ -1,5 +1,8 @@
 .app_content {
+    display: flex;
+    align-items: stretch;
     flex-grow: 1;
+
 }
 
 /*.App {*/

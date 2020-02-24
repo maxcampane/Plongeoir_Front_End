@@ -6,9 +6,11 @@ const headerLogo = (props) => {
     const { header_logo, header_logo_alt, logo } = props;
 
     return (
-        <img src={header_logo}
-             alt={header_logo_alt}
-             className={logo}/>
+        <a href={"/"}>
+            <img src={header_logo}
+                 alt={header_logo_alt}
+                 className={logo}/>
+        </a>
     )
 };
 

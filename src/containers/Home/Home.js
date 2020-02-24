@@ -1,61 +1,60 @@
-import React from "react";
+import React from 'react';
+import bgImage from "../../ressources/home_bg_image.png";
+import homeMap from "../../ressources/homeMap2.png";
+import SideMenu from "../SideMenu/SideMenu";
+
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Paper } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 const styles = theme => ({
-    root: {
-        minHeight: "100%",
-        flexGrow: 1,
-        backgroundColor: "red",
+    mapContainer: {
+        overflow: 'hidden',
     },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-        height: "100%"
+    homeImageLayout: {
+        overflow: 'hidden',
+        height: '100%',
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        [theme.breakpoints.down('xs')]: {
+            height: "75%",
+        }
     },
+    img: {
+        height: '100%',
+        opacity: 0.3,
+        transition: '0.2s',
+        '&:hover': {
+            opacity: 0.1,
+        },
+    },
+    homeMapClass: {
+        marginLeft: '-550px',
+        zIndex: -3,
+    }
 });
 
 class Home extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            check: true,
-        }
-    }
-
-    hideCard = () => {
-        this.setState({
-            check: !this.state.check
-        });
-    };
-
     render(){
         const { classes } = this.props;
-        console.log("check : " + this.state.check);
-        const displayMode = this.state.check ? "" : "hidden";
-        const backgroundColor = this.state.check ? "red" : "blue";
 
         return (
-            <>
-                <div style={{backgroundColor: backgroundColor}}>
-                    Hello World
-                </div>
-                <Grid container spacing={3}>
-                    <div style={{display: displayMode, backgroundColor: backgroundColor}}>
-                        <Grid item sm={3} xs={12}>
-                            <Paper className={classes.paper}>xs=12 sm=6</Paper>
-                        </Grid>
+            <Grid container>
+                <SideMenu sm={2} xs={12}/>
+                <Grid item sm={5} xs={12}>
+                    <div className={classes.mapContainer}>
+                        <img src={homeMap} alt={'homeMapImage'}
+                             className={classes.homeMapClass}/>
                     </div>
-                    <button onClick={this.hideCard}>click</button>
-                    <Grid item sm={4} xs={12}>
-                        <Paper className={classes.paper}>xs=12 sm=4</Paper>
-                    </Grid>
-                    <Grid item sm={5} xs={12}>
-                        <Paper className={classes.paper}>xs=12 sm=4</Paper>
-                    </Grid>
                 </Grid>
-            </>
+                <Grid item sm={5} xs={12}>
+                    <div className={classes.homeImageLayout}>
+                        <img className={classes.img}
+                             src={bgImage}
+                             alt={'home_background_image'}/>
+                         <p>Hello World !</p>
+                    </div>
+                </Grid>
+            </Grid>
         )
     }
 }

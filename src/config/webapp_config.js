@@ -49,10 +49,6 @@ export const leftPanelButtons = [
         name: "Accueil",
         url: routes_names.HOME,
     },
-    {
-        name: "Bibliothèque",
-        url: routes_names.LIBRARY,
-    },
 ];
 
 export const rightPanelButtons = [
