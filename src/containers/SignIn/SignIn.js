@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from "../../config/axios-orders";
 import SignInComponent from "../../components/SignIn/SignIn";
 
 import { withStyles } from '@material-ui/core/styles';
@@ -46,11 +47,25 @@ const styles = theme => ({
 });
 
 class SignIn extends React.Component {
+    submitLogin = () => {
+        const authData = {
+            email: "admin@test.com",
+            password: "admin",
+        };
+
+        axios.post("", authData)
+            .then(response => console.log(response.data))
+            .catch(error => console.log(error));
+    };
+
     render(){
         const { classes } = this.props;
 
         return (
-            <SignInComponent classes={classes}/>
+            <>
+                <button onClick={this.submitLogin}>submitLogin</button>
+                <SignInComponent classes={classes}/>
+            </>
         );
     }
 }
