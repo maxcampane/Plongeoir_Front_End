@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@material-ui/core";
 
 const bookOverview = (props) => (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid item xs={12} sm={4} md={3}>
         <Card className={props.classes.card}>
             <CardMedia
                 className={props.classes.cardMedia}

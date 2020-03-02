@@ -3,6 +3,7 @@ import { fake_books } from "../../config/fake_books_config";
 import CategoryPageComponent from "../../components/CategoryPage/CategoryPage";
 import BookOverview from "../../components/BookOverview/BookOverview";
 import { withStyles } from "@material-ui/core";
+import axios from "../../config/axios-orders";
 
 const styles = theme => ({
     heroContent: {
@@ -68,6 +69,19 @@ class CategoryPage extends React.Component {
     };
 
     componentDidMount() {
+        axios.get("/books/category/" + this.props.match.params.id)
+            .then(response => {
+                const books = [...response.data];//, ...fake_books];
+
+                this.setState({
+                    books: books,
+                    filteredBooks: books,
+                })
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
         this.setState({
             books: fake_books,
             filteredBooks: fake_books,
@@ -84,7 +98,7 @@ class CategoryPage extends React.Component {
             booksOverview = <p>Il n'y a pas de livres qui correspond à votre recherche.</p>
         } else {
             booksOverview = this.state.filteredBooks.map((book, index) => (
-                <BookOverview key={book._id}
+                <BookOverview key={index}
                               classes={classes}
                               title={book.title}
                               description={book.description}/>

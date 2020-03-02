@@ -2,6 +2,7 @@ import React from "react";
 import SideMenuButton from "../../components/SideMenuButton/SideMenuButton";
 import PropTypes from "prop-types";
 import { withStyles, Grid } from "@material-ui/core";
+import axios from "../../config/axios-orders";
 
 const styles = theme => ({
     sideMenu: {
@@ -42,15 +43,48 @@ const styles = theme => ({
 });
 
 class SideMenu extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            categories: null,
+        }
+    }
+    fetchData = () => {
+        axios.get("/books/categories")
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+
+    componentDidMount() {
+        axios.get("/books/categories")
+            .then(response => {
+                this.setState({ categories: [...response.data] });
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
     render(){
         const { classes, sm, xs } = this.props;
 
+        let sideMenuButtons = null;
+        if(this.state.categories){
+            sideMenuButtons = this.state.categories.map((category, index) => (
+                <SideMenuButton key={index} url={"/categorie/" + category}
+                                sideMenuButton={classes.sideBarMenuButton}>
+                    {category}
+                </SideMenuButton>
+            ));
+        }
+
         return (
             <Grid item sm={sm} xs={xs} className={classes.sideMenu}>
-                <SideMenuButton url={"/categorie/1"} sideMenuButton={classes.sideBarMenuButton}>Catégorie 1</SideMenuButton>
-                <SideMenuButton url={"/categorie/2"} sideMenuButton={classes.sideBarMenuButton}>Catégorie 2</SideMenuButton>
-                <SideMenuButton url={"/categorie/3"} sideMenuButton={classes.sideBarMenuButton}>Catégorie 3</SideMenuButton>
-                <SideMenuButton url={"/categorie/4"} sideMenuButton={classes.sideBarMenuButton}>Catégorie 4</SideMenuButton>
+                {sideMenuButtons}
             </Grid>
         )
     }

@@ -23,7 +23,7 @@ const categoryPage = (props) => {
     return (
         <Grid container>
             <SideMenu sm={2} xs={12}/>
-            <Grid item sm={9} xs={12}>
+            <Grid item sm={10} xs={12}>
                 <div className={classes.heroContent}>
                     <Typography className={classes.categoryPageTitle}
                                 variant={'h4'} component={'h5'}
