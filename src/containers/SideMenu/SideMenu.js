@@ -1,8 +1,11 @@
 import React from "react";
+import * as actions_categories from "../../store/actions/actions_categories";
+
 import SideMenuButton from "../../components/SideMenuButton/SideMenuButton";
-import PropTypes from "prop-types";
+
 import { withStyles, Grid } from "@material-ui/core";
-import axios from "../../config/axios-orders";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 const styles = theme => ({
     sideMenu: {
@@ -43,41 +46,19 @@ const styles = theme => ({
 });
 
 class SideMenu extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            categories: null,
-        }
-    }
-    fetchData = () => {
-        axios.get("/books/categories")
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    };
-
     componentDidMount() {
-        axios.get("/books/categories")
-            .then(response => {
-                this.setState({ categories: [...response.data] });
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        this.props.fetchCategories();
     }
 
     render(){
         const { classes, sm, xs } = this.props;
 
         let sideMenuButtons = null;
-        if(this.state.categories){
-            sideMenuButtons = this.state.categories.map((category, index) => (
-                <SideMenuButton key={index} url={"/categorie/" + category}
+        if(this.props.categories){
+            sideMenuButtons = this.props.categories.map((category, index) => (
+                <SideMenuButton key={index} url={"/categorie/" + category.id}
                                 sideMenuButton={classes.sideBarMenuButton}>
-                    {category}
+                    {category.name}
                 </SideMenuButton>
             ));
         }
@@ -90,9 +71,23 @@ class SideMenu extends React.Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        loading: state.categories.loading,
+        error: state.categories.error,
+        categories: state.categories.categories
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchCategories: () => dispatch(actions_categories.fetchCategories()),
+    }
+};
+
 SideMenu.propTypes = {
     sm: PropTypes.number,
     xs: PropTypes.number,
 };
 
-export default withStyles(styles)(SideMenu);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(SideMenu));

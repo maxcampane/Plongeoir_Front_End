@@ -1,72 +1,50 @@
 import React from "react";
-import * as routes_names from "../../config/routes_names";
-import { CssBaseline, Grid, Paper, Avatar, Typography,
-        TextField, FormControlLabel, Checkbox,
-        Button, Link as MUILink } from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { Link } from "react-router-dom";
+import Authentication from "../../containers/Authentication/Authentication";
+import {withStyles} from "@material-ui/core/styles";
 
-const signin = (props) => {
-    const { classes } = props;
-    const rememberMe = <Checkbox value="remember" color="primary" />;
+const styles = theme => ({
+    root: {
+        height: '100vh',
+    },
+    absolute: {
+        marginTop: "50px",
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        zIndex: 2,
+        padding: "20px",
+    },
+    image: {
+        zIndex: -1,
+        filter: "blur(6px)",
+        backgroundImage: 'url(https://source.unsplash.com/random)',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor:
+            theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[50],
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+    },
+    paper: {
+        margin: theme.spacing(8, 4),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.warning.light,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+});
 
-    return (
-        <Grid container component="main" className={classes.root}>
-            <CssBaseline />
-            <Grid item xs={12} className={classes.image}/>
-            <Grid item xs={12} elevation={6} square
-                  component={Paper} className={classes.absolute}>
-                <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Se connecter
-                    </Typography>
-                    <form className={classes.form} noValidate>
-                        <TextField variant="outlined"
-                                   margin="normal"
-                                   required fullWidth
-                                   type="email"
-                                   id="email"
-                                   label="Adresse email"
-                                   name="email"
-                                   autoComplete="email"
-                                   autoFocus/>
-                        <TextField variant="outlined"
-                                   margin="normal"
-                                   required fullWidth
-                                   name="password"
-                                   label="Mot de passe"
-                                   type="password"
-                                   id="password"
-                                   autoComplete="current-password"/>
-                        <FormControlLabel control={rememberMe}
-                                          label="Enregistrer mes identifiants"/>
-                        <Button type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}>
-                            Se connecter
-                        </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <MUILink component={Link} to={routes_names.SIGNUP} variant="body2">
-                                    {"Mot de passe oublié"}
-                                </MUILink>
-                            </Grid>
-                            <Grid item>
-                                <MUILink component={Link} to={routes_names.SIGNUP} variant="body2">
-                                    {"Je n'ai pas de compte"}
-                                </MUILink>
-                            </Grid>
-                        </Grid>
-                    </form>
-                </div>
-            </Grid>
-        </Grid>
-    )
-};
+const signIn = (props) => <Authentication classes={props.classes}
+                                          isSignUp={false}/>;
 
-export default signin;
+export default withStyles(styles)(signIn);

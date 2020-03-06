@@ -44,14 +44,11 @@ export const css_config = {
  * Ensemble de boutons de la barre de navigation
  */
 
-export const leftPanelButtons = [
+export const rightPanelButtons = [
     {
         name: "Accueil",
         url: routes_names.HOME,
     },
-];
-
-export const rightPanelButtons = [
     {
         name: "Se connecter",
         url: routes_names.SIGNIN,

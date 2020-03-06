@@ -26,10 +26,10 @@ const categoryPage = (props) => {
             <Grid item sm={10} xs={12}>
                 <div className={classes.heroContent}>
                     <Typography className={classes.categoryPageTitle}
-                                variant={'h4'} component={'h5'}
+                                component={'h6'}
                                 gutterBottom noWrap
                                 align={'center'}>
-                        Vous êtes dans la catégorie {props.categoryId}
+                        Vous êtes dans la catégorie {props.categoryName}
                     </Typography>
                     <div>
                         <Container maxWidth='xl'>

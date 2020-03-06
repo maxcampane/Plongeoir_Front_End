@@ -1,9 +1,10 @@
 import React from "react";
-import { fake_books } from "../../config/fake_books_config";
 import CategoryPageComponent from "../../components/CategoryPage/CategoryPage";
 import BookOverview from "../../components/BookOverview/BookOverview";
-import { withStyles } from "@material-ui/core";
-import axios from "../../config/axios-orders";
+
+import { Typography, withStyles } from "@material-ui/core";
+import { connect } from "react-redux";
+import * as actions_books from "../../store/actions/actions_books";
 
 const styles = theme => ({
     heroContent: {
@@ -40,7 +41,6 @@ const styles = theme => ({
         margin: theme.spacing(1),
         marginLeft: theme.spacing(2),
         width: 200,
-
     }
 });
 
@@ -69,47 +69,50 @@ class CategoryPage extends React.Component {
     };
 
     componentDidMount() {
-        axios.get("/books/category/" + this.props.match.params.id)
-            .then(response => {
-                const books = [...response.data];//, ...fake_books];
-
-                this.setState({
-                    books: books,
-                    filteredBooks: books,
-                })
-            })
-            .catch(error => {
-                console.log(error);
-            });
-
-        this.setState({
-            books: fake_books,
-            filteredBooks: fake_books,
-        });
+        this.props.fetchBooks(this.props.match.params.id);
     }
 
     render() {
-        const { classes, match: {params} } = this.props;
+        const { classes, match: { params } } = this.props;
 
         let booksOverview,
             isInputInvalid = false;
-        if(this.state.filteredBooks.length === 0) {
+
+        if(this.props.filteredBooks.length === 0) {
             isInputInvalid = true;
-            booksOverview = <p>Il n'y a pas de livres qui correspond à votre recherche.</p>
+            booksOverview = <Typography style={{ marginTop: "3em" }}> Il n'y a pas de livres qui correspond à votre recherche. </Typography>
         } else {
-            booksOverview = this.state.filteredBooks.map((book, index) => (
+            booksOverview = this.props.filteredBooks.map((book, index) => (
                 <BookOverview key={index}
                               classes={classes}
+                              bookId={book.id}
                               title={book.title}
+                              imageURL={book.imageURL}
                               description={book.description}/>
             ));
         }
 
         return <CategoryPageComponent classes={classes} isInputInvalid={isInputInvalid}
                                       categoryId={params.id}
+                                      categoryName={"test"} //récupérer dans le store le nom de la catégorie
                                       onFilterChange={this.onFilterChange}
                                       booksOverview={booksOverview}/>;
     }
 }
 
-export default withStyles(styles)(CategoryPage);
+const mapStateToProps = state => {
+    return {
+        loading: state.categories.loading,
+        error: state.categories.error,
+        books: state.books.books,
+        filteredBooks: state.books.filteredBooks,
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchBooks: (categoryId) => dispatch(actions_books.fetchBooks(categoryId)),
+    }
+};
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(CategoryPage));
