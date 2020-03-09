@@ -26,7 +26,7 @@ const authentication = (props) => {
                                     variant="contained"
                                     color="primary"
                                     className={classes.submit}
-                                    onClick={props.submitLogin}>
+                                    onClick={props.submit}>
                                 {props.authTitle}
                             </Button>
                             <Grid container justify={props.justify}>

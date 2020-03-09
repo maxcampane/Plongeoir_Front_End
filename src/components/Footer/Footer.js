@@ -1,6 +1,6 @@
 import React from "react";
 import FooterGroup from "./FooterGroup/FooterGroup";
-import FooterGroupAddress from "./FooterGroup/FooterGroupContent/FooterGroupAddress";
+// import FooterGroupAddress from "./FooterGroup/FooterGroupContent/FooterGroupAddress";
 import { BottomNavigation, Button } from "@material-ui/core";
 import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
@@ -8,8 +8,8 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import PropTypes from "prop-types";
 
 const footer = (props) => {
-    const footerAddress = <FooterGroupAddress generatedAddress={props.generatedAddress}
-                                              generatedHours={props.generatedHours}/>;
+    // const footerAddress = <FooterGroupAddress generatedAddress={props.generatedAddress}
+    //                                           generatedHours={props.generatedHours}/>;
 
     return (
         <BottomNavigation className={props.classes.footer}>

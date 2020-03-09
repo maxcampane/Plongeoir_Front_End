@@ -2,7 +2,7 @@ import React from "react";
 import CategoryPageComponent from "../../components/CategoryPage/CategoryPage";
 import BookOverview from "../../components/BookOverview/BookOverview";
 
-import { Typography, withStyles } from "@material-ui/core";
+import {FormLabel, TextField, Typography, withStyles} from "@material-ui/core";
 import { connect } from "react-redux";
 import * as actions_books from "../../store/actions/actions_books";
 
@@ -49,7 +49,6 @@ class CategoryPage extends React.Component {
         super(props);
         this.state = {
             filterValue: "",
-            books: [],
             filteredBooks: [],
         }
     }
@@ -65,7 +64,7 @@ class CategoryPage extends React.Component {
     };
 
     filterBooksArray = (filterValue) => {
-        return this.state.books.filter(book => book.title.toLowerCase().includes(filterValue));
+        return this.props.books.filter(book => book.title.toLowerCase().includes(filterValue));
     };
 
     componentDidMount() {
@@ -92,10 +91,18 @@ class CategoryPage extends React.Component {
             ));
         }
 
+        const label = <FormLabel>Entrez le nom d'un livre : </FormLabel>,
+            textField = <TextField id="filled-search" type="search"
+                                   className={classes.searchInput}
+                                   error={isInputInvalid}
+                                   onChange={event => this.props.filterBooks(this.props.books, event.target.value.toLowerCase())}/>;
+
+
+
         return <CategoryPageComponent classes={classes} isInputInvalid={isInputInvalid}
-                                      categoryId={params.id}
-                                      categoryName={"test"} //récupérer dans le store le nom de la catégorie
-                                      onFilterChange={this.onFilterChange}
+                                      label={label}
+                                      textField={textField}
+                                      categoryName={params.id} //récupérer dans le store le nom de la catégorie
                                       booksOverview={booksOverview}/>;
     }
 }
@@ -111,7 +118,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchBooks: (categoryId) => dispatch(actions_books.fetchBooks(categoryId)),
+        fetchBooks: (categoryName) => dispatch(actions_books.fetchBooks(categoryName)),
+        filterBooks: (books, filterValue) => dispatch(actions_books.filterBooks(books, filterValue))
     }
 };
 

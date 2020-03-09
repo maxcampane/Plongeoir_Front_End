@@ -1,10 +1,11 @@
 import React from 'react';
-import axios from "../../config/axios-orders";
+import * as routes_names from "../../config/routes_names";
+import * as actions_authentication from "../../store/actions/actions_authentication";
 import AuthenticationComponent from "../../components/Authentication/Authentication";
 
 import { Grid, Link as MUILink, TextField } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import * as routes_names from "../../config/routes_names";
+import { connect } from "react-redux";
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -108,9 +109,7 @@ class SignIn extends React.Component {
             password: "admin",
         };
 
-        axios.post("/login", authData)
-            .then(response => console.log(response))
-            .catch(error => console.log(error));
+        this.props.logIn(authData);
     };
 
     render(){
@@ -143,6 +142,7 @@ class SignIn extends React.Component {
 
         let authTitle = "Se connecter",
             justify = null,
+            submit = this.props.logIn,
             bottomLinks = (
                 <>
                     <Grid item xs>
@@ -161,6 +161,7 @@ class SignIn extends React.Component {
         if(this.props.isSignUp){
             authTitle = "S'inscrire";
             justify = "flex-end";
+            submit = this.props.signUp;
             bottomLinks = (
                 <>
                     <Grid item>
@@ -178,11 +179,24 @@ class SignIn extends React.Component {
                                      bottomLinks={bottomLinks}
                                      justify={justify}
                                      inputChangedHandler={this.inputChangedHandler}
-                                     submitLogin={this.submitLogin}>
+                                     submit={submit}>
                 {form}
             </AuthenticationComponent>
         );
     }
 }
 
-export default SignIn;
+const mapStateToProps = state => {
+    return {
+        isAuthenticated: state.auth.token !== null,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        logIn: (data) => dispatch(actions_authentication.authLogin(data)),
+        signUp: (data) => dispatch(actions_authentication.authSignUp(data)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

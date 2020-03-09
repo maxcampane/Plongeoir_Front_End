@@ -13,8 +13,10 @@ export const book_FAIL = "BOOK_FAIL";
 export const books_START = "BOOKS_START";
 export const books_SUCCESS = "BOOKS_SUCCESS";
 export const books_FAIL = "BOOKS_FAIL";
+export const books_FILTER = "BOOKS_FILTER";
 
 // auth
 export const auth_START = "AUTH_START";
 export const auth_SUCCESS = "AUTH_SUCCESS";
 export const auth_FAIL = "AUTH_FAIL";
+export const auth_LOGOUT = "AUTH_LOGOUT";

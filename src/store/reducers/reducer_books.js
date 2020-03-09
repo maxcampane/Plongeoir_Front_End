@@ -54,6 +54,12 @@ const booksFail = (state, action) => {
     });
 };
 
+const booksFilter = (state, action) => {
+    return updateObject(state, {
+        filteredBooks: action.filteredBooks
+    });
+};
+
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case actionTypes.book_START: return bookStart(state, action);
@@ -62,6 +68,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.books_START: return booksStart(state, action);
         case actionTypes.books_SUCCESS: return booksSuccess(state, action);
         case actionTypes.books_FAIL: return booksFail(state, action);
+        case actionTypes.books_FILTER: return booksFilter(state, action);
 
         default:
             return state;

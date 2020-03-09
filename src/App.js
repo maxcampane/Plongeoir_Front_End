@@ -1,15 +1,16 @@
 import React from 'react';
 import "./App.css";
 import header_logo from "./ressources/logo_petit.png";
-import { content_config, rightPanelButtons } from "./config/webapp_config";
+import { content_config } from "./config/webapp_config";
+import reducer_categories from "./store/reducers/reducer_categories";
+import reducer_books from "./store/reducers/reducer_books";
+import reducer_authentication from "./store/reducers/reducer_authentication";
 
 import NavBar from "./containers/NavBar/NavBar";
 import PageRouting from "./containers/PageRouting/PageRouting";
 import Footer from "./containers/Footer/Footer";
 
 import { BrowserRouter } from 'react-router-dom';
-import reducer_categories from "./store/reducers/reducer_categories";
-import reducer_books from "./store/reducers/reducer_books";
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import { Provider } from 'react-redux';
 import thunk from "redux-thunk";
@@ -19,6 +20,7 @@ class App extends React.Component {
         const rootReducer = combineReducers({
             categories: reducer_categories,
             books: reducer_books,
+            auth: reducer_authentication,
         });
 
         const logger = store => {
@@ -35,8 +37,7 @@ class App extends React.Component {
             <Provider store = {store}>
                 <BrowserRouter>
                     <NavBar header_logo={header_logo}
-                            name={content_config.name}
-                            rightPanelButtons={rightPanelButtons}/>
+                            name={content_config.name}/>
                     <div className={"app_content"}>
                         <PageRouting/>
                     </div>

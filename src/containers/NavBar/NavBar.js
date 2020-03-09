@@ -4,6 +4,8 @@ import { withStyles } from "@material-ui/core";
 import NavBarComponent from "../../components/NavBar/NavBar";
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+import { connect } from "react-redux";
+import * as routes_names from "../../config/routes_names";
 
 const styles = theme => ({
     toolbar: {
@@ -55,17 +57,50 @@ class NavbarContainer extends React.Component {
     };
 
     render(){
-        const { classes, header_logo, name, leftPanelButtons, rightPanelButtons } = this.props;
+        const { classes, header_logo, name, leftPanelButtons } = this.props;
 
         let burgerIcon = <MenuIcon className={classes.burgerMenu} onClick={this.handleMobileMenuDisplay}/>;
         if(this.state.mobileMenu){
             burgerIcon = <MenuOpenIcon className={classes.burgerMenu} onClick={this.handleMobileMenuDisplay}/>;
         }
 
+
+        let rightPanelButtons = [{
+            name: "Accueil",
+            url: routes_names.HOME,
+        }];
+
+        let accountButtons = [
+            {
+                name: "Se connecter",
+                url: routes_names.SIGNIN,
+            },
+            {
+                name: "S'inscrire",
+                url: routes_names.SIGNUP,
+            }
+        ];
+
+        if(this.props.isAuthenticated){
+            accountButtons = [
+                {
+                    name: "Mon compte",
+                    url: routes_names.ACCOUNT
+                },
+                {
+                    name: "Se déconnecter",
+                    url: routes_names.SIGNOUT,
+                }
+            ]
+        }
+
+        rightPanelButtons.push(...accountButtons);
+
         return (
             <NavBarComponent header_logo={header_logo}
                              classes={classes}
                              name={name}
+                             isAuthenticated={this.props.isAuthenticated}
                              leftPanelButtons={leftPanelButtons}
                              rightPanelButtons={rightPanelButtons}
                              burgerIcon={burgerIcon}/>
@@ -73,9 +108,15 @@ class NavbarContainer extends React.Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        isAuthenticated: state.auth.token,// !== null,
+    };
+};
+
 NavbarContainer.propTypes = {
     leftPanelButtons: PropTypes.array,
     rightPanelButtons: PropTypes.array,
 };
 
-export default withStyles(styles)(NavbarContainer);
+export default withStyles(styles)(connect(mapStateToProps)(NavbarContainer));
