@@ -95,21 +95,33 @@ class SignIn extends React.Component {
             form: this.updateObject(this.state.form, {
                 [inputName]: {
                     value: value,
+                    type: this.state.form[inputName].type,
+                    usedForLogin: this.state.form[inputName].usedForLogin,
                     placeholder: this.state.form[inputName].placeholder,
-                    isValid: this.checkInputValidity(value, inputName),
+                    isValid: this.checkInputValidity(value, this.state.form[inputName].type),
                     touched: true,
                 }
             })
         });
     };
 
-    submitLogin = () => {
-        const authData = {
+    submitAuthentication = () => {
+        let authData = {
             email: "admin@test.com",
             password: "admin",
         };
 
-        this.props.logIn(authData);
+        if(this.props.isSignUp){
+            authData = {
+                ...authData,
+                firstName: this.state.form.firstName.value,
+                lastName: this.state.form.lastName.value,
+            };
+
+            this.props.signUp(authData);
+        } else {
+            this.props.logIn(authData);
+        }
     };
 
     render(){
@@ -142,7 +154,6 @@ class SignIn extends React.Component {
 
         let authTitle = "Se connecter",
             justify = null,
-            submit = this.props.logIn,
             bottomLinks = (
                 <>
                     <Grid item xs>
@@ -161,7 +172,6 @@ class SignIn extends React.Component {
         if(this.props.isSignUp){
             authTitle = "S'inscrire";
             justify = "flex-end";
-            submit = this.props.signUp;
             bottomLinks = (
                 <>
                     <Grid item>
@@ -179,7 +189,7 @@ class SignIn extends React.Component {
                                      bottomLinks={bottomLinks}
                                      justify={justify}
                                      inputChangedHandler={this.inputChangedHandler}
-                                     submit={submit}>
+                                     submit={this.submitAuthentication}>
                 {form}
             </AuthenticationComponent>
         );

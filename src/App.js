@@ -5,6 +5,7 @@ import { content_config } from "./config/webapp_config";
 import reducer_categories from "./store/reducers/reducer_categories";
 import reducer_books from "./store/reducers/reducer_books";
 import reducer_authentication from "./store/reducers/reducer_authentication";
+import reducer_account from "./store/reducers/reducer_account";
 
 import NavBar from "./containers/NavBar/NavBar";
 import PageRouting from "./containers/PageRouting/PageRouting";
@@ -21,6 +22,7 @@ class App extends React.Component {
             categories: reducer_categories,
             books: reducer_books,
             auth: reducer_authentication,
+            acc: reducer_account,
         });
 
         const logger = store => {

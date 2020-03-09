@@ -13,7 +13,7 @@ const bookOverview = (props) => (
             />
             <CardContent className={props.classes.cardContent}>
                 <Typography gutterBottom variant="h5" component="h2">
-                    {props.title}
+                    <Link to={routes_names.BOOKPAGE + "/" + props.bookId}>{props.title}</Link>
                 </Typography>
                 <Typography noWrap>
                     {props.description}

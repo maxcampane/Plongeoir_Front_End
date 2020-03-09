@@ -21,7 +21,6 @@ const navbar = (props) => {
                             className={classes.toolbarTitle}>
                     { name }
                 </Typography>
-                <button onClick={() => console.log(props.isAuthenticated)}>auth</button>
                 <NavBarGroup buttonClass={classes.buttons}
                              buttons={rightPanelButtons}/>
                 {burgerIcon}

@@ -47,7 +47,7 @@ const styles = theme => ({
 
 class SideMenu extends React.Component {
     componentDidMount() {
-        this.props.fetchCategories();
+        this.props.fetchCategories(this.props.token);
     }
 
     render(){
@@ -73,6 +73,7 @@ class SideMenu extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        token: state.auth.token,
         loading: state.categories.loading,
         error: state.categories.error,
         categories: state.categories.categories
@@ -81,7 +82,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchCategories: () => dispatch(actions_categories.fetchCategories()),
+        fetchCategories: (token) => dispatch(actions_categories.fetchCategories(token)),
     }
 };
 

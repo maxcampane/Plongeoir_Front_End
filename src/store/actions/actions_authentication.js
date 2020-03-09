@@ -26,15 +26,10 @@ export const authLogin = (data) => {
     return dispatch => {
         dispatch(authStart());
 
-        const _data = {
-            email: "admin@test.com",
-            password: "admin",
-        };
-
-        axios.post("/login", _data)
+        axios.post("/login", data)
             .then(response => {
 
-                const expirationTime = 0.25 * 60;
+                const expirationTime = 0.25 * 60 * 4 * 10;
                 localStorage.setItem("token", response.data);
                 localStorage.setItem("expirationDate", new Date(new Date().getTime() + expirationTime * 1000));
                 dispatch(authSuccess(response.data, response.data.userId));
@@ -73,8 +68,6 @@ export const authLogOut = () => {
 
 export const checkAuthTimeout = (expirationTime) => {
     return dispatch => {
-        console.log("[checkAuthTimeout] " + expirationTime * 1000);
-
         setTimeout(() => {
             dispatch(authLogOut());
         }, expirationTime * 1000);

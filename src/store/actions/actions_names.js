@@ -20,3 +20,11 @@ export const auth_START = "AUTH_START";
 export const auth_SUCCESS = "AUTH_SUCCESS";
 export const auth_FAIL = "AUTH_FAIL";
 export const auth_LOGOUT = "AUTH_LOGOUT";
+
+// account
+export const account_FETCH_START = "ACCOUNT_FETCH_START";
+export const account_FETCH_SUCCESS = "ACCOUNT_FETCH_SUCCESS";
+export const account_FETCH_FAIL = "ACCOUNT_FETCH_FAIL";
+export const account_UPDATE_START = "ACCOUNT_UPDATE_START";
+export const account_UPDATE_SUCCESS = "ACCOUNT_UPDATE_SUCCESS";
+export const account_UPDATE_FAIL = "ACCOUNT_UPDATE_FAIL";

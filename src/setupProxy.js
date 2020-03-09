@@ -12,6 +12,9 @@ const opts = {
 module.exports = app => {
     app.use(proxy("/login", opts));
     app.use(proxy("/signup", opts));
-    app.use(proxy("/books/categories", opts));
-    app.use(proxy("/books/category/", opts));
+    app.use(proxy("/api/users", opts));
+    app.use(proxy("/api/books/categories", opts));
+    app.use(proxy("/api/books/category/", opts));
+    app.use(proxy("/api/books/{id}", opts));
+    app.use(proxy("/api/books/**", opts));
 };

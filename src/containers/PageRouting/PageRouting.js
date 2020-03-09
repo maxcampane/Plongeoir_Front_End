@@ -3,15 +3,15 @@ import * as routes_names from "../../config/routes_names";
 import * as actions_auth from "../../store/actions/actions_authentication";
 
 import Home from "../Home/Home";
-import Library from "../Library/Library";
-import CategoryController from "../CategoryPage/CategoryController";
+import Categories from "../Categories/Categories";
+import CategoryController from "../Categories/CategoryPage/CategoryController";
 import SignIn from "../../components/SignIn/SignIn";
 import SignUp from "../../components/SignUp/SignUp";
 import BookPage from "../BookPage/BookPage";
 import Account from "../Account/Account";
 
 import { connect } from "react-redux";
-import {Redirect, Route, Switch} from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 class PageRouting extends React.Component {
     componentDidMount() {
@@ -19,11 +19,13 @@ class PageRouting extends React.Component {
     }
 
     render(){
+        if(!this.props.isAppInitialized){
+            return null;
+        }
+
         let routes = (
             <Switch>
                 <Route path={routes_names.HOME} exact component={Home}/>
-                <Route path={routes_names.LIBRARY} exact component={Library}/>
-                <Route path={routes_names.CATEGORIE + "/:id"} exact component={CategoryController}/>
 
                 <Route path={routes_names.SIGNIN} exact component={SignIn}/>
                 <Route path={routes_names.SIGNUP} exact component={SignUp}/>
@@ -36,7 +38,7 @@ class PageRouting extends React.Component {
             routes = (
                 <Switch>
                     <Route path={routes_names.HOME} exact component={Home}/>
-                    <Route path={routes_names.LIBRARY} exact component={Library}/>
+                    <Route path={routes_names.CATEGORIES} exact component={Categories}/>
                     <Route path={routes_names.CATEGORIE + "/:id"} exact component={CategoryController}/>
 
                     <Route path={routes_names.ACCOUNT} exact component={Account}/>;
@@ -53,6 +55,7 @@ class PageRouting extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        isAppInitialized: state.auth.isAppInitialized,
         isAuthenticated: state.auth.token !== null,
     };
 };

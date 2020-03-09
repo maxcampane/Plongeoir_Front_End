@@ -41,11 +41,11 @@ export const booksFail = (error) => {
     };
 };
 
-export const fetchBooks = (categoryName) => {
+export const fetchBooks = (categoryName, token) => {
     return dispatch => {
         dispatch(booksStart());
 
-        axios.get("/books/category/" + categoryName)
+        axios.get("/api/books/category/" + categoryName, { headers: { "X-AUTH-TOKEN": token } })
             .then(response => {
                 dispatch(booksSuccess(response.data));
             })
@@ -56,7 +56,7 @@ export const fetchBooks = (categoryName) => {
     }
 };
 
-export const fetchBook = (bookId) => {
+export const fetchBook = (bookId, token) => {
     return dispatch => {
         dispatch(bookStart());
 
@@ -82,7 +82,7 @@ export const fetchBook = (bookId) => {
         //     imageURL: "https://i.imgur.com/n744BL9.png",
         // },
         // ].filter(book => book.id === parseInt(bookId))[0]));
-        axios.get("/books/" + bookId)
+        axios.get("/api/books/" + bookId, { headers: { "X-AUTH-TOKEN": token }})
             .then(response => {
                 dispatch(bookSuccess(response.data))
             })

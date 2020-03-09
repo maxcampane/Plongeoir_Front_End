@@ -12,6 +12,7 @@ const navBarGroup = (props) => {
                 <Button key={index}
                         className={buttonClass}
                         component={NavLink}
+                        onClick={button.action}
                         to={button.url}>
                     {button.name}
                 </Button>

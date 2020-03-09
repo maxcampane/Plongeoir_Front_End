@@ -1,7 +1,11 @@
 import React from "react";
+import * as routes_names from "../../config/routes_names";
 import * as actions_books from "../../store/actions/actions_books";
-import { withStyles } from "@material-ui/core";
+
 import BookPageComponent from "../../components/BookPage/BookPage";
+
+import { Redirect } from "react-router-dom";
+import { withStyles } from "@material-ui/core";
 import { connect } from "react-redux";
 
 const styles = theme => ({
@@ -26,20 +30,19 @@ const styles = theme => ({
 });
 
 class BookPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            bookId: null,
-        }
-    }
-
     componentDidMount() {
-        this.props.fetchBook(this.props.match.params.id);
+        if(this.props.token){
+            this.props.fetchBook(this.props.match.params.id, this.props.token);
+        }
     }
 
     render(){
         let book = this.props.book,
             bookPageContent = null;
+
+        if(!this.props.token){
+            return <Redirect to={routes_names.HOME}/>
+        }
 
         if(this.props.book){
             bookPageContent = <BookPageComponent classes={this.props.classes}
@@ -53,13 +56,14 @@ class BookPage extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        token: state.auth.token,
         book: state.books.book
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchBook: bookId => dispatch(actions_books.fetchBook(bookId))
+        fetchBook: (bookId, token) => dispatch(actions_books.fetchBook(bookId, token))
     };
 };
 

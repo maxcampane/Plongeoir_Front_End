@@ -1,11 +1,14 @@
 import React from "react";
+import * as routes_names from "../../config/routes_names";
+import * as actions_auth from "../../store/actions/actions_authentication";
+
+import NavBarComponent from "../../components/NavBar/NavBar";
+
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core";
-import NavBarComponent from "../../components/NavBar/NavBar";
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import { connect } from "react-redux";
-import * as routes_names from "../../config/routes_names";
 
 const styles = theme => ({
     toolbar: {
@@ -56,6 +59,9 @@ class NavbarContainer extends React.Component {
         });
     };
 
+    logout = () => this.props.logout();
+
+
     render(){
         const { classes, header_logo, name, leftPanelButtons } = this.props;
 
@@ -84,12 +90,17 @@ class NavbarContainer extends React.Component {
         if(this.props.isAuthenticated){
             accountButtons = [
                 {
+                    name: "Nos livres",
+                    url: routes_names.CATEGORIES,
+                },
+                {
                     name: "Mon compte",
-                    url: routes_names.ACCOUNT
+                    url: routes_names.ACCOUNT,
                 },
                 {
                     name: "Se déconnecter",
                     url: routes_names.SIGNOUT,
+                    action: this.logout,
                 }
             ]
         }
@@ -100,7 +111,6 @@ class NavbarContainer extends React.Component {
             <NavBarComponent header_logo={header_logo}
                              classes={classes}
                              name={name}
-                             isAuthenticated={this.props.isAuthenticated}
                              leftPanelButtons={leftPanelButtons}
                              rightPanelButtons={rightPanelButtons}
                              burgerIcon={burgerIcon}/>
@@ -110,7 +120,14 @@ class NavbarContainer extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        isAuthenticated: state.auth.token,// !== null,
+        token: state.auth.token,
+        isAuthenticated: state.auth.token !== null,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        logout: () => dispatch(actions_auth.authLogOut()),
     };
 };
 
@@ -119,4 +136,4 @@ NavbarContainer.propTypes = {
     rightPanelButtons: PropTypes.array,
 };
 
-export default withStyles(styles)(connect(mapStateToProps)(NavbarContainer));
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(NavbarContainer));

@@ -21,11 +21,11 @@ export const categoriesFail = (error) => {
     };
 };
 
-export const fetchCategories = () => {
+export const fetchCategories = (token) => {
     return dispatch => {
         dispatch(categoriesStart());
 
-        axios.get("/books/categories")
+        axios.get("/api/books/categories", { "headers": { "X-AUTH-TOKEN": token }})
             .then(response => {
                 dispatch(categoriesSuccess(response.data));
             })

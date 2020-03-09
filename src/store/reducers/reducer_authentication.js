@@ -6,6 +6,7 @@ const initialState = {
     loading: false,
     token: null,
     userId: null,
+    isAppInitialized: false,
 };
 
 const authStart = (state, action) => {
@@ -21,6 +22,7 @@ const authSuccess = (state, action) => {
         error: null,
         token: action.token,
         userId: action.userId,
+        isAppInitialized: true,
     });
 };
 
@@ -35,6 +37,7 @@ const authLogout = (state, action) => {
     return updateObject(state, {
         token: null,
         userId: null,
+        isAppInitialized: true,
     });
 };
 
