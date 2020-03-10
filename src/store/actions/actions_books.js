@@ -1,22 +1,9 @@
 import * as actionTypes from "./actions_names";
 import axios from "../../config/axios-orders";
 
-export const bookStart = () => {
-    return {
-        type: actionTypes.book_START
-    };
-};
-
 export const booksStart = () => {
     return {
         type: actionTypes.books_START
-    };
-};
-
-export const bookSuccess = (book) => {
-    return {
-        type: actionTypes.book_SUCCESS,
-        book: book
     };
 };
 
@@ -27,16 +14,29 @@ export const booksSuccess = (books) => {
     };
 };
 
-export const bookFail = (error) => {
+export const booksFail = (error) => {
     return {
-        type: actionTypes.book_FAIL,
+        type: actionTypes.books_FAIL,
         error: error
     };
 };
 
-export const booksFail = (error) => {
+export const bookStart = () => {
     return {
-        type: actionTypes.books_FAIL,
+        type: actionTypes.book_START
+    };
+};
+
+export const bookSuccess = (book) => {
+    return {
+        type: actionTypes.book_SUCCESS,
+        book: book
+    };
+};
+
+export const bookFail = (error) => {
+    return {
+        type: actionTypes.book_FAIL,
         error: error
     };
 };
@@ -60,28 +60,6 @@ export const fetchBook = (bookId, token) => {
     return dispatch => {
         dispatch(bookStart());
 
-        // dispatch(bookSuccess([{
-        //     id: 11,
-        //     title: "Harry Potter",
-        //     description: "Description 1",
-        //     imageURL: "https://i.imgur.com/n744BL9.png",
-        // },{
-        //     id: 12,
-        //     title: "Naruto",
-        //     description: "Description 2",
-        //     imageURL: "https://i.imgur.com/n744BL9.png",
-        // },{
-        //     id: 13,
-        //     title: "The Witcher",
-        //     description: "Description 3",
-        //     imageURL: "https://i.imgur.com/n744BL9.png",
-        // },{
-        //     id: 14,
-        //     title: "La Cousine Bette",
-        //     description: "Description 4",
-        //     imageURL: "https://i.imgur.com/n744BL9.png",
-        // },
-        // ].filter(book => book.id === parseInt(bookId))[0]));
         axios.get("/api/books/" + bookId, { headers: { "X-AUTH-TOKEN": token }})
             .then(response => {
                 dispatch(bookSuccess(response.data))

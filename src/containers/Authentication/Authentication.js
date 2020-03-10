@@ -3,7 +3,7 @@ import * as routes_names from "../../config/routes_names";
 import * as actions_authentication from "../../store/actions/actions_authentication";
 import AuthenticationComponent from "../../components/Authentication/Authentication";
 
-import { Grid, Link as MUILink, TextField } from "@material-ui/core";
+import {Button, Grid, Link as MUILink, TextField} from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -105,11 +105,40 @@ class SignIn extends React.Component {
         });
     };
 
+    generateRandomString = () => {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+
+        for (let i = 0; i < 6; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    };
+
+    isFormValid = (authData) => {
+        let check = true;
+
+        if(!this.checkInputValidity(authData.email, "email")){
+            check = false;
+        } else if (!this.checkInputValidity(authData.password, "password")) {
+            check = false;
+        } else if (authData.firstName && !this.checkInputValidity(authData.firstName, "text")) {
+            check = false;
+        } else if (authData.lastName && !this.checkInputValidity(authData.lastName, "text")) {
+            check = false;
+        }
+
+        // return check;
+        return true;
+    };
+
     submitAuthentication = () => {
         let authData = {
-            email: "admin@test.com",
-            password: "admin",
+            email: this.state.form.email.value,
+            password: this.state.form.password.value,
         };
+        let authFunction = this.props.logIn;
 
         if(this.props.isSignUp){
             authData = {
@@ -118,9 +147,28 @@ class SignIn extends React.Component {
                 lastName: this.state.form.lastName.value,
             };
 
-            this.props.signUp(authData);
+            authFunction = this.props.signUp;
+        }
+
+        if(this.isFormValid(authData)){
+            authFunction(authData);
         } else {
-            this.props.logIn(authData);
+            alert("Veuillez compléter tous les champs.");
+        }
+    };
+
+    submitRandomUsers = () => {
+        let authData = null;
+
+        for(let i = 0; i < 10; i++){
+            authData = {
+                email: this.generateRandomString() + '@' + this.generateRandomString() + '.com',
+                password: 'admin',
+                firstName: this.generateRandomString(),
+                lastName: this.generateRandomString(),
+            };
+
+            this.props.signUp(authData)
         }
     };
 
@@ -154,6 +202,7 @@ class SignIn extends React.Component {
 
         let authTitle = "Se connecter",
             justify = null,
+            buttonSupp = null,
             bottomLinks = (
                 <>
                     <Grid item xs>
@@ -172,6 +221,16 @@ class SignIn extends React.Component {
         if(this.props.isSignUp){
             authTitle = "S'inscrire";
             justify = "flex-end";
+            buttonSupp = (
+                <Button fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={this.submitRandomUsers}>
+                    Créer des nouveaux utilisateurs randoms
+                </Button>
+            );
+
             bottomLinks = (
                 <>
                     <Grid item>
@@ -188,6 +247,7 @@ class SignIn extends React.Component {
                                      authTitle={authTitle}
                                      bottomLinks={bottomLinks}
                                      justify={justify}
+                                     buttonSupp={buttonSupp}
                                      inputChangedHandler={this.inputChangedHandler}
                                      submit={this.submitAuthentication}>
                 {form}

@@ -1,7 +1,6 @@
 import React from "react";
 import SideMenu from "../../containers/SideMenu/SideMenu";
 import {
-    Button,
     Card,
     CardActions,
     CardContent,
@@ -24,10 +23,12 @@ const account = (props) => (
                         {props.fields}
                     </CardContent>
                     <CardActions style={{marginTop: "50px"}}>
-                        <Button size="small" color="primary" onClick={props.switchMode}>
-                            Éditer le profil
-                        </Button>
+                        {props.actionButtons}
                     </CardActions>
+                    <br/><br/><br/><br/><br/>
+                    <div style={{display: "flex"}}>
+                        {props.rentedBooksOverview}
+                    </div>
                 </Card>
             </Container>
         </Grid>

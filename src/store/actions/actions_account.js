@@ -44,9 +44,11 @@ export const updateStart = () => {
     };
 };
 
-export const updateSuccess = () => {
+export const updateSuccess = (userData) => {
     return {
         type: actionTypes.account_UPDATE_SUCCESS,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
     };
 };
 
@@ -61,12 +63,13 @@ export const updateUserData = (token, updateData) => {
     return dispatch => {
         dispatch(updateStart());
 
-        axios.patch("/api/user", { headers: { "X-AUTH-TOKEN": token }}, updateData)
+        axios.post("/api/users", updateData, { headers: { "X-AUTH-TOKEN": token }})
             .then(response => {
-                console.log(response);
-                dispatch(updateSuccess());
+                alert("Informations mises à jour !");
+                dispatch(updateSuccess(response.data));
             })
             .catch(error => {
+                alert("Une erreur est survenue lors de la mise à jour des informations de l'utilisateur. Veuillez réessayer.");
                 console.log(error);
                 dispatch(updateFail(error));
             });

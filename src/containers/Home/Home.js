@@ -5,6 +5,7 @@ import SideMenu from "../SideMenu/SideMenu";
 
 import { withStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
+import { connect } from "react-redux";
 
 const styles = theme => ({
     mapContainer: {
@@ -37,10 +38,17 @@ class Home extends React.Component {
     render(){
         const { classes } = this.props;
 
+        let sideMenu = null,
+            mapSize = 7;
+        if(this.props.token){
+            mapSize = 5;
+            sideMenu = <SideMenu sm={2} xs={12}/>;
+        }
+
         return (
             <Grid container>
-                <SideMenu sm={2} xs={12}/>
-                <Grid item sm={5} xs={12}>
+                {sideMenu}
+                <Grid item sm={mapSize} xs={12}>
                     <div className={classes.mapContainer}>
                         <img src={homeMap} alt={'homeMapImage'}
                              className={classes.homeMapClass}/>
@@ -59,4 +67,10 @@ class Home extends React.Component {
     }
 }
 
-export default withStyles(styles)(Home);
+const mapStateToProps = state => {
+    return {
+        token: state.auth.token,
+    };
+};
+
+export default withStyles(styles)(connect(mapStateToProps)(Home));

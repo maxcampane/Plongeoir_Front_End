@@ -1,0 +1,14 @@
+#content {
+    position:relative;
+}
+
+.bookWrapper {
+    background: silver;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity = 80);
+}

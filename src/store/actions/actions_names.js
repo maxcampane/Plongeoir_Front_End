@@ -15,6 +15,14 @@ export const books_SUCCESS = "BOOKS_SUCCESS";
 export const books_FAIL = "BOOKS_FAIL";
 export const books_FILTER = "BOOKS_FILTER";
 
+// rent
+export const rent_START = "RENT_START";
+export const rent_SUCCESS = "RENT_SUCCESS";
+export const rent_FAIL = "RENT_FAIL";
+export const return_START = "RETURN_START";
+export const return_SUCCESS = "RETURN_SUCCESS";
+export const return_FAIL = "RETURN_FAIL";
+
 // auth
 export const auth_START = "AUTH_START";
 export const auth_SUCCESS = "AUTH_SUCCESS";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Button, CssBaseline, Grid, Paper, Typography } from "@material-ui/core";
+import {Avatar, Button, CardActions, CssBaseline, Grid, Paper, Typography} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
 const authentication = (props) => {
@@ -22,13 +22,17 @@ const authentication = (props) => {
                         <Grid container spacing={2}>
                             {props.children}
 
-                            <Button fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.submit}
-                                    onClick={props.submit}>
-                                {props.authTitle}
-                            </Button>
+                            <CardActions style={{width: "100%"}}>
+                                <Button fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.submit}
+                                        onClick={props.submit}>
+                                    {props.authTitle}
+                                </Button>
+                                {props.buttonSupp}
+                            </CardActions>
+
                             <Grid container justify={props.justify}>
                                 {props.bottomLinks}
                             </Grid>

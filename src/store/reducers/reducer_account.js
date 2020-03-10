@@ -44,6 +44,8 @@ const accountUpdateSuccess = (state, action) => {
     return updateObject(state, {
         loading: false,
         error: null,
+        firstName: action.firstName,
+        lastName: action.lastName,
     });
 };
 

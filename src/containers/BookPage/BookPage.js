@@ -7,6 +7,7 @@ import BookPageComponent from "../../components/BookPage/BookPage";
 import { Redirect } from "react-router-dom";
 import { withStyles } from "@material-ui/core";
 import { connect } from "react-redux";
+import axios from "../../config/axios-orders";
 
 const styles = theme => ({
     container: {
@@ -30,23 +31,82 @@ const styles = theme => ({
 });
 
 class BookPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            redirect: false,
+        }
+    }
+
     componentDidMount() {
         if(this.props.token){
             this.props.fetchBook(this.props.match.params.id, this.props.token);
         }
     }
 
+    rentBook = (bookId) => {
+        console.log(1);
+        axios.post("/api/books/" + bookId + "/rent", null, { headers: { "X-AUTH-TOKEN": this.props.token }})
+            .then(response => {
+                this.setState({ redirect: true });
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    };
+
+    returnBook = (bookId) => {
+        console.log(1);
+        axios.post("/api/books/" + bookId + "/return", null, { headers: { "X-AUTH-TOKEN": this.props.token }})
+            .then(response => {
+                this.setState({ redirect: true });
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    };
+
+    nothing = () => {
+
+    };
+
     render(){
         let book = this.props.book,
             bookPageContent = null;
+
+        if(this.state.redirect){
+            return <Redirect to={routes_names.CATEGORIE + "/" + book.categoryId}/>;
+        }
 
         if(!this.props.token){
             return <Redirect to={routes_names.HOME}/>
         }
 
-        if(this.props.book){
+        if(book){
+            let greyWrapper = null,
+                titleColor = null,
+                actionButtonContent = "RESERVER",
+                rentOrReturn = this.rentBook;
+
+            if(book.borrowed){
+                greyWrapper = "bookWrapper";
+                titleColor = "red";
+                actionButtonContent = "INDISPONIBLE";
+                rentOrReturn = this.nothing;
+
+                if(book.borrowerId === this.props.userId){
+                    titleColor = "green";
+                    actionButtonContent = "RENDRE";
+                    rentOrReturn = this.returnBook;
+                }
+            }
+
             bookPageContent = <BookPageComponent classes={this.props.classes}
-                                                 book={book}/>;
+                                                 greyWrapper={greyWrapper}
+                                                 titleColor={titleColor}
+                                                 book={book}
+                                                 rentOrReturn={rentOrReturn}
+                                                 actionButtonContent={actionButtonContent}/>;
         }
 
 
@@ -57,6 +117,7 @@ class BookPage extends React.Component {
 const mapStateToProps = state => {
     return {
         token: state.auth.token,
+        userId: state.auth.userId,
         book: state.books.book
     };
 };

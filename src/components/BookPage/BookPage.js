@@ -20,14 +20,17 @@ const bookPage = (props) => {
                 <Container maxWidth="md" className={props.classes.container}>
                     <Card classes={props.classes.paper}  style={{height: "100%"}}>
                         <CardActionArea>
-                            <CardMedia component="img"
-                                       alt={props.book.title.replace(" ", "_").toLowerCase()}
-                                       height="300"
-                                       image={props.book.imageURL}
-                                       title={props.book.title}/>
+                            <div>
+                                <CardMedia component="img"
+                                           alt={props.book.title.replace(" ", "_").toLowerCase()}
+                                           height="300"
+                                           image={props.book.imageURL}
+                                           title={props.book.title}/>
+                                <div className={props.greyWrapper}/>
+                            </div>
                         </CardActionArea>
                         <CardContent style={{marginTop: "20px"}}>
-                            <Typography gutterBottom variant="h5" component="h2">
+                            <Typography gutterBottom variant="h5" component="h2" style={{color: props.titleColor}}>
                                 {props.book.title}
                             </Typography>
                             <hr/>
@@ -36,8 +39,8 @@ const bookPage = (props) => {
                             </Typography>
                         </CardContent>
                         <CardActions style={{marginTop: "50px"}}>
-                            <Button size="small" color="primary">
-                                Réserver
+                            <Button size="small" color="primary" onClick={() => props.rentOrReturn(props.book.id)}>
+                                {props.actionButtonContent}
                             </Button>
                         </CardActions>
                     </Card>

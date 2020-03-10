@@ -1,7 +1,8 @@
 import React from "react";
 import FooterGroup from "./FooterGroup/FooterGroup";
-// import FooterGroupAddress from "./FooterGroup/FooterGroupContent/FooterGroupAddress";
-import { BottomNavigation, Button } from "@material-ui/core";
+import * as routes_names from "../../config/routes_names";
+
+import { BottomNavigation } from "@material-ui/core";
 import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import InstagramIcon from '@material-ui/icons/Instagram';
@@ -14,12 +15,15 @@ const footer = (props) => {
     return (
         <BottomNavigation className={props.classes.footer}>
             <FooterGroup>
+                <a href={routes_names.HORAIRES}>
+                    Horaires d'ouverture
+                </a>
                 <p>Trou-perdu-en-Isère</p>
                 <p>38350 Isère</p>
                 <p>01.23.45.67.89</p>
             </FooterGroup>
             <FooterGroup>
-                <Button onClick={() => alert("CGU")}>CGU</Button>
+                <a href={"/CGU"}>CGU</a>
             </FooterGroup>
             <FooterGroup>
                 Contact us !

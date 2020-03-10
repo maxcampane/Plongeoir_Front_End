@@ -1,6 +1,9 @@
 import React from "react";
 import Authentication from "../../containers/Authentication/Authentication";
 import {withStyles} from "@material-ui/core/styles";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import * as routes_names from "../../config/routes_names";
 
 const styles = theme => ({
     root: {
@@ -44,7 +47,22 @@ const styles = theme => ({
     },
 });
 
-const signIn = (props) => <Authentication classes={props.classes}
-                                          isSignUp={false}/>;
+const signIn = (props) => {
+    let returnView = (
+        <Authentication classes={props.classes}
+                        isSignUp={false}/>
+    );
 
-export default withStyles(styles)(signIn);
+    if(props.token)
+        returnView = <Redirect to={routes_names.HOME}/>;
+
+    return returnView;
+};
+
+const mapStateToProps = state => {
+    return {
+        token: state.auth.token,
+    };
+};
+
+export default withStyles(styles)(connect(mapStateToProps)(signIn));

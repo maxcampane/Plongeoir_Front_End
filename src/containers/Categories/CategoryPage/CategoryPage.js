@@ -1,10 +1,11 @@
 import React from "react";
-import CategoryPageComponent from "../../../components/CategoryPage/CategoryPage";
-import BookOverview from "../../../components/BookOverview/BookOverview";
-
-import {FormLabel, TextField, Typography, withStyles} from "@material-ui/core";
-import { connect } from "react-redux";
 import * as actions_books from "../../../store/actions/actions_books";
+
+import CategoryPageComponent from "../../../components/CategoryPage/CategoryPage";
+import BookOverview from "../../BookOverview/BookOverview";
+
+import { FormLabel, TextField, Typography, withStyles } from "@material-ui/core";
+import { connect } from "react-redux";
 
 const styles = theme => ({
     heroContent: {
@@ -57,24 +58,27 @@ class CategoryPage extends React.Component {
         this.props.fetchBooks(this.props.match.params.id, this.props.token);
     }
 
+    getBooks = () => {
+        this.props.fetchBooks(this.props.match.params.id, this.props.token);
+    };
+
     render() {
         const { classes, match: { params } } = this.props;
 
         let booksOverview,
             isInputInvalid = false;
 
-        if(this.props.filteredBooks.length === 0) {
+        if(this.props.books.length === 0){
+            isInputInvalid = true;
+            booksOverview = <Typography style={{ marginTop: "3em" }}> Il n'y a pas de livres dans cette catégorie. </Typography>
+        } else if(this.props.filteredBooks.length === 0) {
             isInputInvalid = true;
             booksOverview = <Typography style={{ marginTop: "3em" }}> Il n'y a pas de livres qui correspond à votre recherche. </Typography>
         } else {
-            booksOverview = this.props.filteredBooks.map((book, index) => (
-                <BookOverview key={index}
-                              classes={classes}
-                              bookId={book.id}
-                              title={book.title}
-                              imageURL={book.imageURL}
-                              description={book.description}/>
-            ));
+            booksOverview = this.props.filteredBooks.map((book, index) => {
+                return <BookOverview key={index} classes={classes} getBooks={this.getBooks}
+                                     bookDetails={book}/>;
+            });
         }
 
         const label = <FormLabel>Entrez le nom d'un livre : </FormLabel>,
@@ -106,7 +110,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchBooks: (categoryName, token) => dispatch(actions_books.fetchBooks(categoryName, token)),
-        filterBooks: (books, filterValue) => dispatch(actions_books.filterBooks(books, filterValue))
+        filterBooks: (books, filterValue) => dispatch(actions_books.filterBooks(books, filterValue)),
     }
 };
 
