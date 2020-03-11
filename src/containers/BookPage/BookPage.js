@@ -2,6 +2,7 @@ import React from "react";
 import * as routes_names from "../../config/routes_names";
 import * as actions_books from "../../store/actions/actions_books";
 
+import Error404 from "../../components/Error/404";
 import BookPageComponent from "../../components/BookPage/BookPage";
 
 import { Redirect } from "react-router-dom";
@@ -45,7 +46,6 @@ class BookPage extends React.Component {
     }
 
     rentBook = (bookId) => {
-        console.log(1);
         axios.post("/api/books/" + bookId + "/rent", null, { headers: { "X-AUTH-TOKEN": this.props.token }})
             .then(response => {
                 this.setState({ redirect: true });
@@ -56,7 +56,6 @@ class BookPage extends React.Component {
     };
 
     returnBook = (bookId) => {
-        console.log(1);
         axios.post("/api/books/" + bookId + "/return", null, { headers: { "X-AUTH-TOKEN": this.props.token }})
             .then(response => {
                 this.setState({ redirect: true });
@@ -66,20 +65,22 @@ class BookPage extends React.Component {
             })
     };
 
-    nothing = () => {
-
-    };
+    nothing = () => {};
 
     render(){
+        if(!this.props.token)
+            return <Redirect to={routes_names.HOME}/>;
+
         let book = this.props.book,
             bookPageContent = null;
 
         if(this.state.redirect){
-            return <Redirect to={routes_names.CATEGORIE + "/" + book.categoryId}/>;
+            const category = this.props.categories.filter(category => category.id === book.categoryId);
+            return <Redirect to={routes_names.CATEGORIE + "/" + category[0].name}/>;
         }
 
-        if(!this.props.token){
-            return <Redirect to={routes_names.HOME}/>
+        if(this.props.errorBook){
+            return <Error404/>
         }
 
         if(book){
@@ -88,7 +89,7 @@ class BookPage extends React.Component {
                 actionButtonContent = "RESERVER",
                 rentOrReturn = this.rentBook;
 
-            if(book.borrowed){
+            if(book.isBorrowed){
                 greyWrapper = "bookWrapper";
                 titleColor = "red";
                 actionButtonContent = "INDISPONIBLE";
@@ -118,7 +119,9 @@ const mapStateToProps = state => {
     return {
         token: state.auth.token,
         userId: state.auth.userId,
-        book: state.books.book
+        book: state.books.book,
+        errorBook: state.books.error,
+        categories: state.categories.categories,
     };
 };
 

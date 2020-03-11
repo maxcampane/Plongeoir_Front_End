@@ -1,6 +1,6 @@
 import React from "react";
 import "./BookOverview.css";
-import { Card, CardActions, CardContent, CardMedia, Grid, Link as MUILink, Button, Typography } from "@material-ui/core";
+import { Card, CardActions, CardContent, CardMedia, Grid, Link as MUILink, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import * as routes_names from "../../config/routes_names";
 

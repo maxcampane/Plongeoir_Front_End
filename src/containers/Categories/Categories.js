@@ -1,7 +1,9 @@
 import React from "react";
+import * as routes_names from "../../config/routes_names";
 import * as actions_categories from "../../store/actions/actions_categories";
 import { Grid, Paper, withStyles } from "@material-ui/core";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 const styles = theme => ({
     root: {
@@ -24,13 +26,16 @@ class Home extends React.Component {
     }
 
     render(){
+        if(!this.props.token)
+            return <Redirect to={routes_names.HOME}/>;
+
         const { classes } = this.props;
 
         let categories = null;
         if(this.props.categories){
             categories = this.props.categories.map((category, index) => (
                 <Grid key={index} item sm={12} md={6} className={classes.grid}>
-                    <a href={"/categorie/" + category.id}>
+                    <a href={"/categorie/" + category.name}>
                         <Paper className={classes.paper}>{category.name}</Paper>
                     </a>
                 </Grid>

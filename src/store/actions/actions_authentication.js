@@ -25,14 +25,14 @@ export const authLogin = (data) => {
     return dispatch => {
         dispatch(authStart());
 
-        let _data = {
-            email: "admin@test.com",
-            password: "admin",
-        };
+        // let _data = {
+        //     email: "admin@test.com",
+        //     password: "admin",
+        // };
 
-        axios.post("/login", _data)
-            .then(response => {
-                const expirationTime = 0.25 * 60 * 4 * 10;
+        axios.post("/login", data)
+            .then(response => {      //s  * min * h
+                const expirationTime = 60 * 60 * 10;
                 localStorage.setItem("token", response.data);
                 localStorage.setItem("expirationDate", new Date(new Date().getTime() + expirationTime * 1000));
                 dispatch(authSuccess(response.data));

@@ -1,6 +1,8 @@
 import React from "react";
 import * as actions_books from "../../../store/actions/actions_books";
+import * as routes_names from "../../../config/routes_names";
 
+import Error404 from "../../../components/Error/404";
 import CategoryPageComponent from "../../../components/CategoryPage/CategoryPage";
 import BookOverview from "../../BookOverview/BookOverview";
 
@@ -63,6 +65,10 @@ class CategoryPage extends React.Component {
     };
 
     render() {
+        if(this.props.error){
+            return <Error404/>;
+        }
+
         const { classes, match: { params } } = this.props;
 
         let booksOverview,
@@ -77,7 +83,7 @@ class CategoryPage extends React.Component {
         } else {
             booksOverview = this.props.filteredBooks.map((book, index) => {
                 return <BookOverview key={index} classes={classes} getBooks={this.getBooks}
-                                     bookDetails={book}/>;
+                                     redirectURL={routes_names.CATEGORIE + "/" + this.props.match.params.id} bookDetails={book}/>;
             });
         }
 
@@ -92,7 +98,7 @@ class CategoryPage extends React.Component {
         return <CategoryPageComponent classes={classes} isInputInvalid={isInputInvalid}
                                       label={label}
                                       textField={textField}
-                                      categoryName={params.id} //récupérer dans le store le nom de la catégorie
+                                      categoryName={params.id}
                                       booksOverview={booksOverview}/>;
     }
 }
@@ -101,7 +107,7 @@ const mapStateToProps = state => {
     return {
         token: state.auth.token,
         loading: state.categories.loading,
-        error: state.categories.error,
+        error: state.books.error,
         books: state.books.books,
         filteredBooks: state.books.filteredBooks,
     }

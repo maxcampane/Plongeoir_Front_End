@@ -166,33 +166,28 @@ class Account extends React.Component {
         }
 
         const fields = fieldsData.map((field, index) => {
-            if(this.state.editMode){
-                returnValue = (
-                    <div key={index}>
-                        <label>{field.config.displayValue + " :"}</label>
-                        <TextField key={field.id}
-                                   id={field.id}
-                                   name={field.id}
-                                   style={{marginLeft: "10px"}}
-                                   label={field.config.placeholder}
-                                   error={!field.config.isValid}
-                                   onChange={this.inputChangedHandler}>
-                            {this.props[field.id]}
-                        </TextField>
-                    </div>
-                );
-            } else {
-                returnValue = (
-                    <div key={index}>
-                        <label>{field.config.displayValue + " : "}</label>
-                        <Typography className={this.props.classes.label}>
-                            {this.props[field.id]}
-                        </Typography>
-                    </div>
-                );
-            }
-
-            return returnValue;
+            return (
+                <div key={index}>
+                    <label>{field.config.displayValue + " :"}</label>
+                    {this.state.editMode
+                        ? (
+                            <TextField key={field.id}
+                                       id={field.id}
+                                       name={field.id}
+                                       style={{marginLeft: "10px"}}
+                                       label={field.config.placeholder}
+                                       error={!field.config.isValid}
+                                       onChange={this.inputChangedHandler}>
+                                {this.props[field.id]}
+                            </TextField>
+                        ) : (
+                            <Typography className={this.props.classes.label}>
+                                {this.props[field.id]}
+                            </Typography>
+                        )
+                    }
+                </div>
+            );
         });
 
         let buttonConfirmUpdate = (
@@ -203,10 +198,16 @@ class Account extends React.Component {
 
         if(this.state.editMode){
             buttonConfirmUpdate = (
+                <>
                     <Button size="small" color="primary"
                             onClick={this.submitUpdateUserInfo}>
-                        Valider</Button>
-                )
+                        Valider
+                    </Button>
+                    <Button size="small" color="primary" onClick={this.switchMode}>
+                        Retour
+                    </Button>
+                </>
+            )
         }
 
         let rentedBooksOverview = null;

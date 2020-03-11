@@ -7,6 +7,7 @@ import Categories from "../Categories/Categories";
 import CategoryController from "../Categories/CategoryPage/CategoryController";
 import SignIn from "../../components/SignIn/SignIn";
 import SignUp from "../../components/SignUp/SignUp";
+import SignOut from "../../components/SignOut/SignOut";
 import BookPage from "../BookPage/BookPage";
 import Account from "../Account/Account";
 import CGU from "../../components/Footer/CGU/CGU";
@@ -36,7 +37,7 @@ class PageRouting extends React.Component {
 
                 <Route path={routes_names.SIGNIN} exact component={SignIn}/>
                 <Route path={routes_names.SIGNUP} exact component={SignUp}/>
-                <Route path={routes_names.SIGNOUT} exact component={SignUp}/>
+                <Route path={routes_names.SIGNOUT} exact component={SignOut}/>
 
 
 
@@ -69,7 +70,7 @@ class PageRouting extends React.Component {
 
                     <Route path={routes_names.SIGNIN} exact component={SignIn}/>
                     <Route path={routes_names.SIGNUP} exact component={SignUp}/>
-                    <Route path={routes_names.SIGNOUT} exact component={SignUp}/>
+                    <Route path={routes_names.SIGNOUT} exact component={SignOut}/>
 
 
                     <Route path={"*"} component={Error404}/>

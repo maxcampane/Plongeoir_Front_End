@@ -56,7 +56,7 @@ class SideMenu extends React.Component {
         let sideMenuButtons = null;
         if(this.props.categories){
             sideMenuButtons = this.props.categories.map((category, index) => (
-                <SideMenuButton key={index} url={"/categorie/" + category.id}
+                <SideMenuButton key={index} url={"/categorie/" + category.name}
                                 sideMenuButton={classes.sideBarMenuButton}>
                     {category.name}
                 </SideMenuButton>

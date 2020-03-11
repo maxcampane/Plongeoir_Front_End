@@ -9,14 +9,30 @@ const initialState = {
     book: null
 };
 
-const bookStart = (state, action) => {
+const booksStart = (state, action) => {
     return updateObject(state, {
         error: false,
         loading: true
     });
 };
 
-const booksStart = (state, action) => {
+const booksSuccess = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        error: null,
+        books: action.books,
+        filteredBooks: action.books,
+    });
+};
+
+const booksFail = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        error: action.error
+    });
+};
+
+const bookStart = (state, action) => {
     return updateObject(state, {
         error: false,
         loading: true
@@ -31,23 +47,7 @@ const bookSuccess = (state, action) => {
     });
 };
 
-const booksSuccess = (state, action) => {
-    return updateObject(state, {
-        loading: false,
-        error: null,
-        books: action.books,
-        filteredBooks: action.books,
-    });
-};
-
 const bookFail = (state, action) => {
-    return updateObject(state, {
-        loading: false,
-        error: action.error
-    });
-};
-
-const booksFail = (state, action) => {
     return updateObject(state, {
         loading: false,
         error: action.error

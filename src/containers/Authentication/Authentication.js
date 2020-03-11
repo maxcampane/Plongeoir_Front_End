@@ -105,17 +105,6 @@ class SignIn extends React.Component {
         });
     };
 
-    generateRandomString = () => {
-        let result = '';
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        const charactersLength = characters.length;
-
-        for (let i = 0; i < 6; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    };
-
     isFormValid = (authData) => {
         let check = true;
 
@@ -129,8 +118,13 @@ class SignIn extends React.Component {
             check = false;
         }
 
-        // return check;
-        return true;
+        return check;
+        // return true;
+    };
+
+    submitForm = (event) => {
+        if(event.key === "Enter")
+            this.submitAuthentication();
     };
 
     submitAuthentication = () => {
@@ -138,6 +132,7 @@ class SignIn extends React.Component {
             email: this.state.form.email.value,
             password: this.state.form.password.value,
         };
+
         let authFunction = this.props.logIn;
 
         if(this.props.isSignUp){
@@ -154,21 +149,6 @@ class SignIn extends React.Component {
             authFunction(authData);
         } else {
             alert("Veuillez compléter tous les champs.");
-        }
-    };
-
-    submitRandomUsers = () => {
-        let authData = null;
-
-        for(let i = 0; i < 10; i++){
-            authData = {
-                email: this.generateRandomString() + '@' + this.generateRandomString() + '.com',
-                password: 'admin',
-                firstName: this.generateRandomString(),
-                lastName: this.generateRandomString(),
-            };
-
-            this.props.signUp(authData)
         }
     };
 
@@ -195,6 +175,7 @@ class SignIn extends React.Component {
                        label={data.config.placeholder}
                        error={!data.config.isValid}
                        onChange={this.inputChangedHandler}
+                       onKeyPress={this.submitForm}
                        variant="outlined"
                        margin="normal"
                        required fullWidth/>
@@ -202,13 +183,10 @@ class SignIn extends React.Component {
 
         let authTitle = "Se connecter",
             justify = null,
-            buttonSupp = null,
             bottomLinks = (
                 <>
                     <Grid item xs>
-                        <MUILink component={Link} to={routes_names.SIGNUP} variant="body2">
-                            {"Mot de passe oublié"}
-                        </MUILink>
+
                     </Grid>
                     <Grid item>
                         <MUILink component={Link} to={routes_names.SIGNUP} variant="body2">
@@ -221,15 +199,6 @@ class SignIn extends React.Component {
         if(this.props.isSignUp){
             authTitle = "S'inscrire";
             justify = "flex-end";
-            buttonSupp = (
-                <Button fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={this.submitRandomUsers}>
-                    Créer des nouveaux utilisateurs randoms
-                </Button>
-            );
 
             bottomLinks = (
                 <>
@@ -247,7 +216,6 @@ class SignIn extends React.Component {
                                      authTitle={authTitle}
                                      bottomLinks={bottomLinks}
                                      justify={justify}
-                                     buttonSupp={buttonSupp}
                                      inputChangedHandler={this.inputChangedHandler}
                                      submit={this.submitAuthentication}>
                 {form}

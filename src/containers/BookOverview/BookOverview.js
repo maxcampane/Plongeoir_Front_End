@@ -11,7 +11,7 @@ class BookOverview extends React.Component {
                 this.props.getBooks();
             })
             .catch(error => {
-                console.log(error);
+                if(error.request.status === 401) alert(JSON.parse(error.request.responseText).message);
             })
     };
 
@@ -21,20 +21,20 @@ class BookOverview extends React.Component {
                 this.props.getBooks();
             })
             .catch(error => {
+                alert(error.message);
                 console.log(error);
             })
     };
 
     render(){
         const { bookDetails } = this.props;
-        const greyWrapper = bookDetails.borrowed ? "bookWrapper" : null;
+        const greyWrapper = bookDetails.isBorrowed ? "bookWrapper" : null;
 
-        console.log(bookDetails);
         let titleColor = null,
             rentOrReturn = () => this.rentBook(bookDetails.id),
             buttonContent = "RESERVER";
 
-        if(bookDetails.borrowed){
+        if(bookDetails.isBorrowed){
             titleColor = "red";
             rentOrReturn = null;
             buttonContent = "INDISPONIBLE";

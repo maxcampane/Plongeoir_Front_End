@@ -26,9 +26,9 @@ const account = (props) => (
                         {props.actionButtons}
                     </CardActions>
                     <br/><br/><br/><br/><br/>
-                    <div style={{display: "flex"}}>
+                    <Grid container spacing={2}>
                         {props.rentedBooksOverview}
-                    </div>
+                    </Grid>
                 </Card>
             </Container>
         </Grid>

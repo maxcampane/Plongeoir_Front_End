@@ -30,7 +30,6 @@ const authentication = (props) => {
                                         onClick={props.submit}>
                                     {props.authTitle}
                                 </Button>
-                                {props.buttonSupp}
                             </CardActions>
 
                             <Grid container justify={props.justify}>
