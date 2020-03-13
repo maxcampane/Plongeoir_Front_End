@@ -7,10 +7,11 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (token) => {
+export const authSuccess = (authData) => {
     return {
         type: actionTypes.auth_SUCCESS,
-        token: token,
+        token: authData.token,
+        userId: authData.userId
     };
 };
 
@@ -32,11 +33,13 @@ export const authLogin = (data) => {
 
         axios.post("/login", data)
             .then(response => {      //s  * min * h
-                const expirationTime = 60 * 60 * 10;
-                localStorage.setItem("token", response.data);
-                localStorage.setItem("expirationDate", new Date(new Date().getTime() + expirationTime * 1000));
+                const expirationTime = new Date(response.data.expires);//60 * 60 * 10;
+
+                localStorage.setItem("token", response.data.token);
+                localStorage.setItem("expirationDate", expirationTime);
+                localStorage.setItem("userId", response.data.userId);
                 dispatch(authSuccess(response.data));
-                dispatch(checkAuthTimeout(expirationTime));
+                dispatch(checkAuthTimeout(expirationTime - new Date()));
             })
             .catch(error => {
                 alert("Mauvais identifiants. Veuillez réessayer.");
@@ -49,16 +52,17 @@ export const authLogin = (data) => {
 export const authSignUp = (formData) => {
     return dispatch => {
         dispatch(authStart());
-        console.log(formData);
 
         axios.post("/signup", formData)
             .then(response => {
-                const expirationTime = 0.25 * 60 * 4 * 10;
-                localStorage.setItem("token", response.data);
-                localStorage.setItem("expirationDate", new Date(new Date().getTime() + expirationTime * 1000));
+                const expirationTime = new Date(response.data.expires);//60 * 60 * 10;
+
+                localStorage.setItem("token", response.data.token);
+                localStorage.setItem("expirationDate", expirationTime);
+                localStorage.setItem("userId", response.data.userId);
 
                 dispatch(authSuccess(response.data));
-                dispatch(checkAuthTimeout(expirationTime));
+                dispatch(checkAuthTimeout(expirationTime - new Date()));
             })
             .catch(error => {
                 alert("Un problème est survenu lors de l'inscription. Veuillez réessayer.");
@@ -70,6 +74,7 @@ export const authSignUp = (formData) => {
 export const authLogOut = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
+    localStorage.removeItem('userId');
 
     return {
         type: actionTypes.auth_LOGOUT
@@ -87,6 +92,7 @@ export const checkAuthTimeout = (expirationTime) => {
 export const authCheckTokenValidity = () => {
     return dispatch => {
         const token = localStorage.getItem("token");
+
         if(!token){
             dispatch(authLogOut());
         } else {
@@ -94,7 +100,12 @@ export const authCheckTokenValidity = () => {
             if(expirationDate <= new Date()){
                 dispatch(authLogOut());
             } else {
-                dispatch(authSuccess(token));
+                const authData = {
+                    token: token,
+                    userId: localStorage.getItem("userId"),
+                };
+
+                dispatch(authSuccess(authData));
                 dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
             }
         }

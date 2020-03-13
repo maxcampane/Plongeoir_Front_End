@@ -5,7 +5,15 @@ import * as actions_auth from "../../store/actions/actions_authentication";
 import NavBarComponent from "../../components/NavBar/NavBar";
 
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core";
+import {
+    withStyles,
+    List,
+    ListItem,
+    SwipeableDrawer,
+    Divider,
+    ListItemText, AppBar,
+} from "@material-ui/core";
+import { Link } from "react-router-dom";
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import { connect } from "react-redux";
@@ -31,6 +39,7 @@ const styles = theme => ({
     },
     burgerMenu: {
         display: "none",
+        marginLeft: theme.spacing(3),
         [theme.breakpoints.down('sm')]: {
             display: "block",
         },
@@ -70,7 +79,6 @@ class NavbarContainer extends React.Component {
             burgerIcon = <MenuOpenIcon className={classes.burgerMenu} onClick={this.handleMobileMenuDisplay}/>;
         }
 
-
         let rightPanelButtons = [{
             name: "Accueil",
             url: routes_names.HOME,
@@ -107,13 +115,41 @@ class NavbarContainer extends React.Component {
 
         rightPanelButtons.push(...accountButtons);
 
+        const sideList = () => (
+            <AppBar position="relative" style={{height: "100%"}}>
+                <div className={classes.list}
+                     role="presentation"
+                     onClick={this.handleMobileMenuDisplay}>
+                    <List>
+                        {rightPanelButtons.map((rightPannelButton, index) => (
+                            <div key={index}>
+                                <ListItem button component={Link} to={rightPannelButton.url}>
+                                    <ListItemText primary={rightPannelButton.name}/>
+                                </ListItem>
+                                <Divider/>
+                            </div>
+                        ))}
+                    </List>
+                    <Divider />
+                </div>
+            </AppBar>
+        );
+
         return (
-            <NavBarComponent header_logo={header_logo}
-                             classes={classes}
-                             name={name}
-                             leftPanelButtons={leftPanelButtons}
-                             rightPanelButtons={rightPanelButtons}
-                             burgerIcon={burgerIcon}/>
+            <>
+                <NavBarComponent header_logo={header_logo}
+                                 classes={classes}
+                                 name={name}
+                                 leftPanelButtons={leftPanelButtons}
+                                 rightPanelButtons={rightPanelButtons}
+                                 burgerIcon={burgerIcon}/>
+                <SwipeableDrawer anchor="right"
+                                 open={this.state.mobileMenu}
+                                 onClose={this.handleMobileMenuDisplay}
+                                 onOpen={this.handleMobileMenuDisplay}>
+                    {sideList('right')}
+                </SwipeableDrawer>
+            </>
         );
     }
 }

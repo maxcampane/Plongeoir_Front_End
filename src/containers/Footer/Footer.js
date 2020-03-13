@@ -8,7 +8,7 @@ const styles = theme => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-around",
-        backgroundColor: "lightblue",
+        backgroundColor: theme.palette.warning.light,
         paddingBottom: theme.spacing(6),
         paddingTop: theme.spacing(6),
     }

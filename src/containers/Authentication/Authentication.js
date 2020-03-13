@@ -3,7 +3,7 @@ import * as routes_names from "../../config/routes_names";
 import * as actions_authentication from "../../store/actions/actions_authentication";
 import AuthenticationComponent from "../../components/Authentication/Authentication";
 
-import {Button, Grid, Link as MUILink, TextField} from "@material-ui/core";
+import {Grid, Link as MUILink, TextField} from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 

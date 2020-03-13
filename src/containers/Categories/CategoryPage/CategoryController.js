@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import * as routes_names from "../../../config/routes_names";
 
 const categoryController = (props) => {
-    if(!props.token) return <Redirect to={routes_names.HOME}/>;
+    if(!props.token) return <Redirect to={routes_names.SIGNIN}/>;
 
     return (
         <CategoryPage key={props.match.params.id}

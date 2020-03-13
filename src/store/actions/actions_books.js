@@ -45,6 +45,8 @@ export const fetchBooks = (categoryName, token) => {
     return dispatch => {
         dispatch(booksStart());
 
+
+
         axios.get("/api/books/category/" + categoryName, { headers: { "X-AUTH-TOKEN": token } })
             .then(response => {
                 dispatch(booksSuccess(response.data));

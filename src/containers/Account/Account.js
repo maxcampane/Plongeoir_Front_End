@@ -4,7 +4,7 @@ import * as routes_names from "../../config/routes_names";
 import AccountComponent from "../../components/Account/Account";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { Button, Typography, TextField, withStyles } from "@material-ui/core";
+import {Button, TextField, withStyles, ListItemText, ListItem} from "@material-ui/core";
 import axios from "../../config/axios-orders";
 import BookOverview from "../BookOverview/BookOverview";
 
@@ -39,6 +39,9 @@ const styles = theme => ({
     label: {
         display: "inline",
         marginLeft: "10px",
+    },
+    demo: {
+        backgroundColor: theme.palette.background.paper,
     }
 });
 
@@ -148,13 +151,13 @@ class Account extends React.Component {
 
     render(){
         let redirect = null;
+
         if(!this.props.isAuthenticated){
             return <Redirect to={routes_names.HOME}/>
         }
 
         let fieldsData = [],
-            inputData = null,
-            returnValue = null;
+            inputData = null;
         for(let key in this.state.fields){
             inputData = this.state.fields[key];
             if(!this.state.editMode || inputData.editable ) {
@@ -167,26 +170,30 @@ class Account extends React.Component {
 
         const fields = fieldsData.map((field, index) => {
             return (
-                <div key={index}>
-                    <label>{field.config.displayValue + " :"}</label>
+                <ListItem key={index}>
                     {this.state.editMode
                         ? (
-                            <TextField key={field.id}
-                                       id={field.id}
-                                       name={field.id}
-                                       style={{marginLeft: "10px"}}
-                                       label={field.config.placeholder}
-                                       error={!field.config.isValid}
-                                       onChange={this.inputChangedHandler}>
-                                {this.props[field.id]}
-                            </TextField>
+                            <>
+                                <label>{field.config.displayValue + " :"}</label>
+                                <TextField key={field.id}
+                                           id={field.id}
+                                           name={field.id}
+                                           style={{marginLeft: "20px", marginTop: "-15px"}}
+                                           error={!field.config.isValid}
+                                           onChange={this.inputChangedHandler}>
+                                    {this.props[field.id]}
+                                </TextField>
+                            </>
                         ) : (
-                            <Typography className={this.props.classes.label}>
-                                {this.props[field.id]}
-                            </Typography>
+                            <>
+                                <label>{field.config.displayValue + " :"}</label>
+                                <ListItemText primary={this.props[field.id]}
+                                              className={this.props.classes.label}
+                                              style={{marginBottom: "0px", marginTop: "0px"}}/>
+                            </>
                         )
                     }
-                </div>
+                </ListItem>
             );
         });
 

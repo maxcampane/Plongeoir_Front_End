@@ -6,7 +6,8 @@ import {
     CardContent,
     Container,
     Grid,
-    Typography
+    Typography,
+    List,
 } from "@material-ui/core";
 
 const account = (props) => (
@@ -20,7 +21,15 @@ const account = (props) => (
                                     gutterBottom variant="h3" component="h1">
                             Votre profil
                         </Typography>
-                        {props.fields}
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} md={6}>
+                                <div className={props.classes.demo}>
+                                    <List>
+                                        {props.fields}
+                                    </List>
+                                </div>
+                            </Grid>
+                        </Grid>
                     </CardContent>
                     <CardActions style={{marginTop: "50px"}}>
                         {props.actionButtons}
